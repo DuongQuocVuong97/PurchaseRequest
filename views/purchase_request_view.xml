@@ -1,0 +1,44 @@
+<odoo>
+    <data>
+        <record id="purchase_request_view_list" model="ir.ui.view">
+            <field name="name">purchase.request.list</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="requested_by"/>
+                    <field name="department_id"/>
+                    <field name="creation_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="purchase_request_view_form" model="ir.ui.view">
+            <field name="name">purchase.request.form</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_draft" state="draft" string="Dự thảo" type="object" class="oe_highlight"/>
+                        <button name="action_wait" state="wait" string="Chờ duyệt" type="object" class="oe_highlight"/>
+                        <button name="action_approved" state="approved" string="Đã duyệt" type="object" class="oe_highlight"/>
+                        <button name="action_done" state="done" string="Hoàn thành" type="object" class="oe_highlight"/>
+                        <button name="action_reject" state="reject" string="Hủy" type="object" class="oe_highlight"/>
+
+                    </header>
+                </form>
+            </field>
+        </record>
+
+        <record id="sequence_id" model="ir.sequence">
+            <field name="name">Name ID</field>
+            <field name="code">purchase.request.sequence</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">PR.%(y)s%(month)s%(day)s.</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+</odoo>
