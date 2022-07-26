@@ -1,0 +1,86 @@
+<odoo>
+    <data>
+        <record id="purchase_request_view_list_4" model="ir.ui.view">
+            <field name="name">purchase.request.4.list</field>
+            <field name="model">purchase.request.4</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="requested_by"/>
+                    <field name="department_id"/>
+                    <field name="creation_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="purchase_request_view_form_4" model="ir.ui.view">
+            <field name="name">purchase.request.4.form</field>
+            <field name="model">purchase.request.4</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_draft" state="draft" string="Dự thảo" type="object" class="oe_highlight"/>
+                        <button name="action_wait" state="wait" string="Chờ duyệt" type="object" class="oe_highlight"/>
+                        <button name="action_approved" state="approved" string="Đã duyệt" type="object"
+                                class="oe_highlight"/>
+                        <button name="action_done" state="done" string="Hoàn thành" type="object" class="oe_highlight"/>
+                        <button name="action_reject" state="reject" string="Hủy" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,wait,approved,done,reject"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" class="oe_inline" readonly="1"/>
+                        </h1>
+                        <separator colspan="2"/>
+                        <group>
+                            <group>
+                                <field name="requested_by" options="{'no_quick_create':True,'no_create_edit':true}"/>
+                                <field name="department_id" options="{'no_quick_create':True,'no_create_edit':true}"/>
+                                <field name="approver_id" options="{'no_quick_create':True,'no_create_edit':true}"/>
+                                <field name="cost_total"/>
+                            </group>
+                            <group>
+                                <field name="creation_date"/>
+                                <field name="due_date"/>
+                                <field name="approved_date"/>
+                                <field name="company_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Chi tiết">
+<!--                                <field name="request_ids"/>-->
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="sequence_id_4" model="ir.sequence">
+            <field name="name">Name ID</field>
+            <field name="code">purchase.request.4.sequence</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">PR.%(y)s%(month)s%(day)s.</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="purchase_request_action_4" model="ir.actions.act_window">
+            <field name="name">Purchase request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.request.4</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="purchase_request_menu_root_4"
+                  name="Purchase"/>
+
+        <menuitem id="purchase_request_menu_4"
+                  parent="purchase_request_menu_root_4"
+                  name="Purchase request"
+                  action="purchase_request_action_4"/>
+    </data>
+</odoo>

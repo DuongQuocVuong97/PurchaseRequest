@@ -2,9 +2,9 @@
   <data>
     <!-- explicit list view definition -->
 <!--
-    <record model="ir.ui.view" id="purchase.list">
-      <field name="name">purchase list</field>
-      <field name="model">purchase.purchase</field>
+    <record model="ir.ui.view" id="purchase2.list">
+      <field name="name">purchase2 list</field>
+      <field name="model">purchase2.purchase2</field>
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
@@ -17,18 +17,18 @@
 
     <!-- actions opening views on models -->
 <!--
-    <record model="ir.actions.act_window" id="purchase.action_window">
-      <field name="name">purchase window</field>
-      <field name="res_model">purchase.purchase</field>
+    <record model="ir.actions.act_window" id="purchase2.action_window">
+      <field name="name">purchase2 window</field>
+      <field name="res_model">purchase2.purchase2</field>
       <field name="view_mode">tree,form</field>
     </record>
 -->
 
     <!-- server action to the one above -->
 <!--
-    <record model="ir.actions.server" id="purchase.action_server">
-      <field name="name">purchase server</field>
-      <field name="model_id" ref="model_purchase_purchase"/>
+    <record model="ir.actions.server" id="purchase2.action_server">
+      <field name="name">purchase2 server</field>
+      <field name="model_id" ref="model_purchase2_purchase2"/>
       <field name="state">code</field>
       <field name="code">
         action = {
@@ -42,19 +42,19 @@
 
     <!-- Top menu item -->
 <!--
-    <menuitem name="purchase" id="purchase.menu_root"/>
+    <menuitem name="purchase2" id="purchase2.menu_root"/>
 -->
     <!-- menu categories -->
 <!--
-    <menuitem name="Menu 1" id="purchase.menu_1" parent="purchase.menu_root"/>
-    <menuitem name="Menu 2" id="purchase.menu_2" parent="purchase.menu_root"/>
+    <menuitem name="Menu 1" id="purchase2.menu_1" parent="purchase2.menu_root"/>
+    <menuitem name="Menu 2" id="purchase2.menu_2" parent="purchase2.menu_root"/>
 -->
     <!-- actions -->
 <!--
-    <menuitem name="List" id="purchase.menu_1_list" parent="purchase.menu_1"
-              action="purchase.action_window"/>
-    <menuitem name="Server to list" id="purchase" parent="purchase.menu_2"
-              action="purchase.action_server"/>
+    <menuitem name="List" id="purchase2.menu_1_list" parent="purchase2.menu_1"
+              action="purchase2.action_window"/>
+    <menuitem name="Server to list" id="purchase2" parent="purchase2.menu_2"
+              action="purchase2.action_server"/>
 -->
   </data>
 </odoo>

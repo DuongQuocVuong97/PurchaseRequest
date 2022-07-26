@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "purchase",
+    'name': "purchase_last",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -20,14 +20,13 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base', 'hr'],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        'views/purchase_request_view'
-        'views/views.xml',
-        'views/templates.xml',
+        'views/purchase_request_4_view.xml',
+        'views/purchase_request_line_4_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
