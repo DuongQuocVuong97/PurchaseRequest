@@ -49,7 +49,11 @@
                         </group>
                         <notebook>
                             <page string="Chi tiết">
-<!--                                <field name="request_ids"/>-->
+                                <field name="lines">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                    </tree>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>

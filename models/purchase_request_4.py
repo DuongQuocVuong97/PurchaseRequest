@@ -8,7 +8,9 @@ class PurchaseRequest4(models.Model):
 
     name = fields.Text(string="Số phiếu", readonly=True, required=True, copy=False,
                        default=lambda self: self.env['ir.sequence'].next_by_code('purchase.request.4.sequence'))
-    request_ids = fields.One2many("purchase.request.line.4", "purchase_line_id", string="ID")
+    lines = fields.One2many('purchase.request.line.4', 'requested_id', string='Chi tiết yêu cầu')
+    # request_id = fields.One2many("purchase.request.line.4", "purchase_line_id", string="ID")
+    # purchase_line_id = fields.Many2one("purchase.request.4", required=True, index=True)
     requested_by = fields.Many2one("res.users", string="Người yêu cầu", required=True)
     approver_id = fields.Many2one("res.users", string="Người phê duyệt", required=True)
     department_id = fields.Many2one("hr.department", string="Bộ phận", required=True)
