@@ -2,20 +2,20 @@
 # from odoo import http
 
 
-# class PurchaseLast(http.Controller):
-#     @http.route('/purchase_last/purchase_last/', auth='public')
+# class Purchasehomework(http.Controller):
+#     @http.route('/purchasehomework/purchasehomework/', auth='public')
 #     def index(self, **kw):
 #         return "Hello, world"
 
-#     @http.route('/purchase_last/purchase_last/objects/', auth='public')
+#     @http.route('/purchasehomework/purchasehomework/objects/', auth='public')
 #     def list(self, **kw):
-#         return http.request.render('purchase_last.listing', {
-#             'root': '/purchase_last/purchase_last',
-#             'objects': http.request.env['purchase_last.purchase_last'].search([]),
+#         return http.request.render('purchasehomework.listing', {
+#             'root': '/purchasehomework/purchasehomework',
+#             'objects': http.request.env['purchasehomework.purchasehomework'].search([]),
 #         })
 
-#     @http.route('/purchase_last/purchase_last/objects/<model("purchase_last.purchase_last"):obj>/', auth='public')
+#     @http.route('/purchasehomework/purchasehomework/objects/<model("purchasehomework.purchasehomework"):obj>/', auth='public')
 #     def object(self, obj, **kw):
-#         return http.request.render('purchase_last.object', {
+#         return http.request.render('purchasehomework.object', {
 #             'object': obj
 #         })

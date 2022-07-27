@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "purchase_last",
+    'name': "purchase line",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -24,9 +24,10 @@
 
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
-        'views/purchase_request_4_view.xml',
-        'views/purchase_request_line_4_view.xml',
+        # 'security/ir.model.access.csv',
+        'views/purchase_request_view.xml',
+        'views/purchase_request_line_view.xml',
+        'wizard/reject_reason_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

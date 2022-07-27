@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="reject_reason_wizard_form_view" model="ir.ui.view">
+            <field name="name">reject.reason.wizard.form</field>
+            <field name="model">reject.reason</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="date" invisible="1"/>
+                    <field name="reject_reason" invisible="1"/>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

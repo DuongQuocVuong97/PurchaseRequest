@@ -3,9 +3,9 @@
 # from odoo import models, fields, api
 
 
-# class purchase2(models.Model):
-#     _name = 'purchase2.purchase2'
-#     _description = 'purchase2.purchase2'
+# class purchase(models.Model):
+#     _name = 'purchase.purchase'
+#     _description = 'purchase.purchase'
 
 #     name = fields.Char()
 #     value = fields.Integer()
