@@ -22,7 +22,7 @@ class PurchaseRequest(models.Model):
                               ("approved", "Đã duyệt"),
                               ("done", "Hoàn thành"),
                               ("reject", "Hủy")], default="draft", required=True)
-    reason_id = fields.Many2one('reject.reason')
+    reason_id = fields.Many2one('reject.reason', string="Lý do")
     _sql_constraints = [
         ('name_unique',
          'UNIQUE(name)',

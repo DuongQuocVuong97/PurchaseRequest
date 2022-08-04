@@ -41,50 +41,52 @@
                         <separator colspan="2"/>
                         <group>
                             <group>
-                                <field name="requested_by" options="{'no_quick_create':True,'no_create_edit':true}"
-                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
-                                <field name="department_id" options="{'no_quick_create':True,'no_create_edit':true}"
-                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
-                                <field name="approver_id" options="{'no_quick_create':True,'no_create_edit':true}"
-                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
-                                <field name="cost_total"
-                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
+                                <field name="requested_by" options="{'no_quick_create':True,'no_create_edit':true}"/>
+                                <!--                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
+                                <field name="department_id" options="{'no_quick_create':True,'no_create_edit':true}"/>
+                                <!--                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
+                                <field name="approver_id" options="{'no_quick_create':True,'no_create_edit':true}"/>
+                                <!--                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
+                                <field name="cost_total"/>
+                                <!--                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
                             </group>
                             <group>
-                                <field name="creation_date"
-                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
-                                <field name="due_date"
-                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
-                                <field name="approved_date"
-                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
-                                <field name="company_id"
-                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
+                                <field name="creation_date"/>
+                                <!--                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
+                                <field name="due_date"/>
+                                <!--                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
+                                <field name="approved_date"/>
+                                <!--                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
+                                <field name="company_id"/>
+                                <!--                                       attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
                             </group>
                         </group>
                         <notebook>
                             <page string="Chi tiết">
                                 <field name="lines">
                                     <tree editable="bottom">
-                                        <field name="product_id"
-                                               attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
-                                        <field name="product_uom_id"
-                                               attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
-                                        <field name="request_quantity"
-                                               attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
-                                        <field name="estimated_unit_price"
-                                               attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
-                                        <field name="estimated_subtotal"
-                                               attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
-                                        <field name="due_date"
-                                               attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
-                                        <field name="description"
-                                               attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>
+                                        <field name="product_id"/>
+                                        <!--                                               attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
+                                        <field name="product_uom_id"/>
+                                        <!--                                               attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
+                                        <field name="request_quantity"/>
+                                        <!--                                               attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
+                                        <field name="estimated_unit_price"/>
+                                        <!--                                               attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
+                                        <field name="estimated_subtotal"/>
+                                        <!--                                               attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
+                                        <field name="due_date"/>
+                                        <!--                                               attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
+                                        <field name="description"/>
+                                        <!--                                               attrs="{'readonly':['state','in',('wait','approved','done','reject')]}"/>-->
                                     </tree>
+                                    <group>
+                                        <field name="reason_id"/>
+                                    </group>
                                 </field>
                             </page>
                         </notebook>
                     </sheet>
-                    <!--                    <field name="reason_id"/>-->
                 </form>
             </field>
         </record>

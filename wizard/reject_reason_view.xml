@@ -4,11 +4,25 @@
             <field name="name">reject.reason.wizard.form</field>
             <field name="model">reject.reason</field>
             <field name="arch" type="xml">
-                <form>
-                    <field name="date" invisible="1"/>
-                    <field name="reject_reason" invisible="1"/>
+                <form string="Lý do">
+                    <group class="oe_title">
+                        <field name="date"/>
+                        <field name="reject_reason"/>
+                    </group>
+                    <footer>
+                        <button name="action_reject_reason" string="Đồng ý" type="object" class="btn-primary"/>
+                        <button string="Hủy" class="btn-secondary" special="cancel"/>
+                    </footer>
                 </form>
             </field>
+        </record>
+
+        <record id="purchase_request_reject_action" model="ir.actions.act_window">
+            <field name="name">Reject Reason</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">reject.reason</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="reject_reason_wizard_form_view"/>
         </record>
     </data>
 </odoo>

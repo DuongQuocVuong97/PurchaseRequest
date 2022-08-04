@@ -6,3 +6,4 @@ class RejectReason(models.Model):
 
     date = fields.Date(default=fields.Date.today(), string="Ngày", required=True)
     reject_reason = fields.Text(string="Lý do", required=True)
+
