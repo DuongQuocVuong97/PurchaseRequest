@@ -1,6 +1,6 @@
 from odoo import api, fields, models
 
-class RejectReason(models.TransientModel):
+class RejectReason(models.Model):
     _name = "reject.reason"
     _description = "Reject reason"
 

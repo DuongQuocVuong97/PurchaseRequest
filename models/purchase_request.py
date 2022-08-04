@@ -62,3 +62,4 @@ class PurchaseRequest(models.Model):
     def action_reject(self):
         for rec in self:
             rec.state = 'reject'
+
