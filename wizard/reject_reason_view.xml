@@ -4,7 +4,7 @@
             <field name="name">reject.reason.wizard.form</field>
             <field name="model">reject.reason</field>
             <field name="arch" type="xml">
-                <form string="Lý do">
+                <form string="Lý do từ chối">
                     <group class="oe_title">
                         <field name="date"/>
                         <field name="reject_reason"/>
@@ -18,7 +18,7 @@
         </record>
 
         <record id="purchase_request_reject_action" model="ir.actions.act_window">
-            <field name="name">Reject Reason</field>
+            <field name="name">Lý do từ chối</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">reject.reason</field>
             <field name="view_mode">form</field>

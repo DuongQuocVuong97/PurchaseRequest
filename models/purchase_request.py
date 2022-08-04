@@ -22,12 +22,13 @@ class PurchaseRequest(models.Model):
                               ("approved", "Đã duyệt"),
                               ("done", "Hoàn thành"),
                               ("reject", "Hủy")], default="draft", required=True)
-    reason_id = fields.Many2one('reject.reason', string="Lý do")
+    reason = fields.Text(string="Lý do từ chối duyệt")
     _sql_constraints = [
         ('name_unique',
          'UNIQUE(name)',
          'The name id must be unique'),
     ]
+
 
     @api.depends("lines")
     def _compute_total_amount(self):
@@ -60,6 +61,14 @@ class PurchaseRequest(models.Model):
             rec.state = 'done'
 
     def action_reject(self):
-        for rec in self:
-            rec.state = 'reject'
-
+        return {
+            'name': 'Từ chối',
+            'domain': [],
+            'res_model': 'reject.reason',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'context': {
+                'default_purchase_id': self.id
+            },
+            'target': 'new',
+        }
