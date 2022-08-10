@@ -24,9 +24,11 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/purchaseordered_security.xml',
+        'security/ir.model.access.csv',
         'views/purchase_request_view.xml',
         'views/purchase_request_line_view.xml',
+        'data/purchase_request_sequence.xml',
         'wizard/reject_reason_view.xml',
     ],
     # only loaded in demonstration mode

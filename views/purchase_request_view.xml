@@ -21,20 +21,36 @@
                 <form>
                     <header>
                         <button name="action_wait" state="wait" string="Gửi duyệt" type="object" class="oe_highlight"
-                                attrs="{'invisible': [('state','!=','draft')]} "/>
+                                attrs="{'invisible': [('state','!=','draft')]}"
+                                groups="purchaseordered.group_user"/>
                         <button name="action_approved" state="approved" string="Phê duyệt" type="object"
-                                class="oe_highlight" attrs="{'invisible': [('state','!=','wait')]}"/>
+                                class="oe_highlight" attrs="{'invisible': [('state','!=','wait')]}"
+                                groups="purchaseordered.group_manager"/>
                         <button name="action_reject" string="Từ chối" type="object" class="oe_highlight"
-                                attrs="{'invisible': [('state','!=','wait')]}"/>
+                                attrs="{'invisible': [('state','!=','wait')]}"
+                                groups="purchaseordered.group_manager"/>
                         <button name="action_done" state="done" string="Hoàn thành" type="object" class="oe_highlight"
-                                attrs="{'invisible': [('state','!=','approved')]}"/>
+                                attrs="{'invisible': [('state','!=','approved')]}"
+                                groups="purchaseordered.group_user"/>
                         <button name="action_reject" state="reject" string="Hủy" type="object" class="oe_highlight"
-                                attrs="{'invisible': [('state','!=','approved')]}"/>
+                                attrs="{'invisible': [('state','!=','approved')]}"
+                                groups="purchaseordered.group_manager"/>
                         <button name="action_draft" state="draft" string="Chuyển về dự thảo" type="object"
-                                class="oe_highlight" attrs="{'invisible': [('state','!=','reject')]}"/>
+                                class="oe_highlight" attrs="{'invisible': [('state','!=','reject')]}"
+                                groups="purchaseordered.group_user"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,wait,approved,done,reject"/>
                     </header>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_count" type="object" class="oe_stat_button"
+                                    icon="fa-calendar"
+                                    attrs="{'invisible': [('state','not in',('approved','done'))]}">
+                                <div class="o_stat_info">
+                                    <field name="purchase_count" class="o_stat_value"/>
+                                    <span class="o_stat_text">Đơn mua hàng</span>
+                                </div>
+                            </button>
+                        </div>
                         <h1>
                             <field name="name" class="oe_inline" readonly="1"/>
                         </h1>
@@ -42,21 +58,30 @@
                         <group>
                             <group>
                                 <field name="requested_by" options="{'no_quick_create':True,'no_create_edit':true}"
+                                       groups="purchaseordered.group_user,purchaseordered.group_manager"
                                        attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))]}"/>
                                 <field name="department_id" options="{'no_quick_create':True,'no_create_edit':true}"
+                                       groups="purchaseordered.group_user,purchaseordered.group_manager"
                                        attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))]}"/>
                                 <field name="approver_id" options="{'no_quick_create':True,'no_create_edit':true}"
                                        attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))]}"/>
                                 <field name="cost_total"
                                        attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))]}"/>
+                                <field name="purchase_order_id"
+                                       options="{'no_quick_create':True,'no_create_edit':true}"
+                                       attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))]}"/>
                             </group>
                             <group>
                                 <field name="creation_date"
-                                       attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))]}"/>
+                                       attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))]}"
+                                       groups="purchaseordered.group_user,purchaseordered.group_manager"/>
                                 <field name="due_date"
-                                       attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))]}"/>
+                                       attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))]}"
+                                       groups="purchaseordered.group_user,purchaseordered.group_manager"/>
                                 <field name="approved_date"
-                                       attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))]}"/>
+                                       attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))],
+                                       'invisible': [('state','!=','approved')]}"
+                                       groups="purchaseordered.group_user,purchaseordered.group_manager"/>
                                 <field name="company_id"
                                        attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))]}"/>
                             </group>
@@ -65,13 +90,25 @@
                             <page string="Chi tiết">
                                 <field name="lines">
                                     <tree editable="bottom">
-                                        <field name="product_id"/>
-                                        <field name="product_uom_id"/>
-                                        <field name="request_quantity"/>
-                                        <field name="estimated_unit_price"/>
-                                        <field name="estimated_subtotal"/>
-                                        <field name="due_date"/>
-                                        <field name="description"/>
+                                        <field name="product_id"
+                                               groups="purchaseordered.group_user,purchaseordered.group_manager"
+                                               attrs="{'readonly': [ ('parent.state', 'in', ('approved', 'wait','reject'))]}"/>
+                                        <field name="product_uom_id"
+                                               attrs="{'readonly': [ ('parent.state', 'in', ('approved', 'wait','reject'))]}"/>
+                                        <field name="request_quantity"
+                                               groups="purchaseordered.group_user,purchaseordered.group_manager"
+                                               attrs="{'readonly': [ ('parent.state', 'in', ('approved', 'wait','reject'))]}"/>
+                                        <field name="estimated_unit_price"
+                                               groups="purchaseordered.group_user,purchaseordered.group_manager"
+                                               attrs="{'readonly': [ ('parent.state', 'in', ('approved', 'wait','reject'))]}"/>
+                                        <field name="estimated_subtotal"
+                                               attrs="{'readonly': [ ('parent.state', 'in', ('approved', 'wait','reject'))]}"/>
+                                        <field name="due_date"
+                                               groups="purchaseordered.group_user,purchaseordered.group_manager"
+                                               attrs="{'readonly': [ ('parent.state', 'in', ('approved', 'wait','reject'))]}"/>
+                                        <field name="description"
+                                               groups="purchaseordered.group_user,purchaseordered.group_manager"
+                                               attrs="{'readonly': [ ('parent.state', 'in', ('approved', 'wait','reject'))]}"/>
                                     </tree>
                                 </field>
                             </page>
@@ -85,16 +122,6 @@
         </record>
 
 
-        <record id="sequence_id" model="ir.sequence">
-            <field name="name">Name ID</field>
-            <field name="code">purchase.request.sequence</field>
-            <field name="active">TRUE</field>
-            <field name="prefix">PR.%(y)s%(month)s%(day)s.</field>
-            <field name="padding">4</field>
-            <field name="number_next">1</field>
-            <field name="number_increment">1</field>
-        </record>
-
         <record id="purchase_request_action" model="ir.actions.act_window">
             <field name="name">Purchase request</field>
             <field name="type">ir.actions.act_window</field>
@@ -103,11 +130,12 @@
         </record>
 
         <menuitem id="purchase_request_menu_root"
-                  name="Purchase"/>
+                  name="Purchase Test"/>
 
         <menuitem id="purchase_request_menu"
                   parent="purchase_request_menu_root"
                   name="Purchase request"
-                  action="purchase_request_action"/>
+                  action="purchase_request_action"
+        />
     </data>
 </odoo>

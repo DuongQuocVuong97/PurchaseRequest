@@ -43,5 +43,6 @@
     <menuitem id="purchase_request_line_menu"
               parent="purchase_request_menu_root"
               name="Purchase request line"
-              action="purchase_request_line_action"/>
+              action="purchase_request_line_action"
+              groups="purchaseordered.group_manager,purchaseordered.group_user"/>
 </odoo>
