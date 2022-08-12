@@ -11,10 +11,10 @@ class PurchaseRequestLine(models.Model):
     product_uom_id = fields.Many2one("uom.uom", related='product_id.uom_id', string="Đơn vị tính")
     request_quantity = fields.Integer(string="Số lượng yêu cầu", required=True)
     estimated_unit_price = fields.Float(string="Đơn giá dự kiến")
-    estimated_subtotal = fields.Float(string="Chi phí dự kiến", compute="_compute_total")
+    estimated_subtotal = fields.Float(string="Chi phí dự kiến", compute="_compute_total", readonly=True)
     due_date = fields.Date(string="Ngày cần cấp", required=True, default=fields.Date.today())
     description = fields.Text(string="Ghi chú")
-    delivered_quantity = fields.Float(string="Số lượng đã mua")
+    delivered_quantity = fields.Float(string="Số lượng đã đưa", copy=False, compute="_compute_delivered_quantity")
 
     @api.depends("request_quantity", "estimated_unit_price")
     def _compute_total(self):

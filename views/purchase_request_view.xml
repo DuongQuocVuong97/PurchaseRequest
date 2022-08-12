@@ -98,6 +98,9 @@
                                         <field name="request_quantity"
                                                groups="purchaseordered.group_user,purchaseordered.group_manager"
                                                attrs="{'readonly': [ ('parent.state', 'in', ('approved', 'wait','reject'))]}"/>
+                                        <field name="delivered_quantity"
+                                               groups="purchaseordered.group_user,purchaseordered.group_manager"
+                                               attrs="{'readonly': [ ('parent.state', 'in', ('approved', 'wait','reject'))]}"/>
                                         <field name="estimated_unit_price"
                                                groups="purchaseordered.group_user,purchaseordered.group_manager"
                                                attrs="{'readonly': [ ('parent.state', 'in', ('approved', 'wait','reject'))]}"/>

@@ -66,17 +66,44 @@ class PurchaseRequest(models.Model):
         for rec in self:
             rec.state = 'approved'
 
-        # tạo đơn po(purchase.order)
-        purchase_order = self.env['purchase.order'].create({
-            'partner_id': self.requested_by.id,
-            'order_line': [(0, 0, {
-                'name': 'Test Order',
-                'product_id': self.lines.product_id.id,
-                'product_qty': self.lines.request_quantity,
-                'product_uom': self.lines.product_uom_id.id,
-                'price_unit': self.lines.estimated_unit_price,
-                'date_planned': self.lines.due_date.strftime('%Y-%m-%d')})],
-        })
+            # tạo đơn po(purchase.order)
+            order_vals = {
+                'partner_id': self.requested_by.id,
+            }
+            vals = []
+            for line in self.lines:
+                val = {
+                    'name': 'Test Order',
+                    'product_id': line.product_id.id,
+                    'product_qty': line.request_quantity,
+                    'product_uom': line.product_uom_id.id,
+                    'price_unit': line.estimated_unit_price,
+                    'date_planned': line.due_date.strftime('%Y-%m-%d')
+                }
+                vals.append((0, 0, val))
+            order_vals['order_line'] = vals
+        purchase_order = self.env['purchase.order'].create(
+            #
+            # # purchase_order = self.env['purchase.order'].create({
+            # #     'partner_id': self.requested_by.id,
+            # #     'order_line' : []
+            #     # 'order_line': [(0, 0, {
+            #     #     'name': 'Test Order',
+            #     #     'product_id': self.lines.product_id.id,
+            #     #     'product_qty': self.lines.request_quantity,
+            #     #     'product_uom': self.lines.product_uom_id.id,
+            #     #     'price_unit': self.lines.estimated_unit_price,
+            #     #     'date_planned': self.lines.due_date.strftime('%Y-%m-%d')})],
+            # })
+            # # purchase_order['order_line'].append(
+            # #     (0, 0, {
+            # #         'name': 'Test Order',
+            # #         'product_id': self.lines.product_id.id,
+            # #         'product_qty': self.lines.request_quantity,
+            # #         'product_uom': self.lines.product_uom_id.id,
+            # #         'price_unit': self.lines.estimated_unit_price,
+            # #         'date_planned': self.lines.due_date.strftime('%Y-%m-%d')})
+        )
 
         self.purchase_order_id = purchase_order.id
 
@@ -105,12 +132,10 @@ class PurchaseRequest(models.Model):
     def action_count(self):
         return {
             'name': 'Đơn mua hàng',
-            'res_model': 'purchase.request.line',
+            'res_model': 'purchase.order',
             'type': 'ir.actions.act_window',
-            'domain': [('requested_id', '=', self.id)],
+            'domain': [('id', '=', self.purchase_order_id.id)],
             'view_mode': 'tree,form',
             'target': 'current',
         }
-
     
-
