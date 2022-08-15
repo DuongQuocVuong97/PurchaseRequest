@@ -1,6 +1,6 @@
 from mock.mock import self
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 
@@ -138,4 +138,18 @@ class PurchaseRequest(models.Model):
             'view_mode': 'tree,form',
             'target': 'current',
         }
-    
+
+    def button_open_wizard_import_sale_order1(self):
+        pass
+        # self.ensure_one()
+        # return {
+        #     'name': _(''),
+        #     'type': 'ir.actions.act_window',
+        #     'view_type': 'form',
+        #     'res_model': 'import.purchase.request.line',
+        #     'no_destroy': True,
+        #     'target': 'new',
+        #     'view_id': self.env.ref('purchaseordered.wizard_import_purchase_request_line_view_form') and self.env.ref(
+        #         'purchaseordered.wizard_import_purchase_request_line_view_form_warning').id or False,
+        #     'context': {'default_order_id': self.id},
+        # }

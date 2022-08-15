@@ -38,7 +38,10 @@
                         <button name="action_draft" state="draft" string="Chuyển về dự thảo" type="object"
                                 class="oe_highlight" attrs="{'invisible': [('state','!=','reject')]}"
                                 groups="purchaseordered.group_user"/>
+                         <button name="button_open_wizard_import_sale_order1" type="object" string="Nhập đơn SO"
+                                class="oe_highlight"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,wait,approved,done,reject"/>
+
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">

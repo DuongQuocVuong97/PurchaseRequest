@@ -26,3 +26,5 @@ class PurchaseRequestLine(models.Model):
         for rc in self:
             if rc.request_quantity <= 0:
                 raise ValidationError(_('You cannot create recursive departments.'))
+
+

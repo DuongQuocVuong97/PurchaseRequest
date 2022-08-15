@@ -30,6 +30,7 @@
         'views/purchase_request_line_view.xml',
         'data/purchase_request_sequence.xml',
         'wizard/reject_reason_view.xml',
+        # 'wizard/wizard_sale_order_line_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
