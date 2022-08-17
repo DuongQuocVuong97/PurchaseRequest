@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <report
+            id="report_request_xlsx"
+            model="purchase.request"
+            string="In ra file Excel"
+            report_type="xlsx"
+            name="purchaseordered.request_xlsx"
+            file="purchaseordered.request_xlsx"
+    />
+</odoo>

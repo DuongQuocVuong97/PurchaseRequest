@@ -1,7 +1,35 @@
 from mock.mock import self
-
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+import base64
+import datetime
+import xlrd
+import xlsxwriter
+
+from odoo.exceptions import ValidationError
+from odoo.osv import osv
+
+
+def _check_valid_date(date):
+    if date:
+        if type(date).__name__ in ['int', 'float']:
+            datetime_date = xlrd.xldate_as_datetime(date, 0)
+            date_object = datetime_date.date()
+        else:
+            try:
+                date_object = datetime.datetime.strptime(date, '%d/%m/%Y')
+            except:
+                return None
+        return date_object
+    return None
+
+
+def _check_format_excel(file_name):
+    if not file_name:
+        return False
+    if not file_name.endswith('.xls') and not file_name.endswith('.xlsx'):
+        return False
+    return True
 
 
 class PurchaseRequest(models.Model):
@@ -33,6 +61,70 @@ class PurchaseRequest(models.Model):
          'UNIQUE(name)',
          'The name id must be unique'),
     ]
+
+    field_binary_import = fields.Binary(string="Field Binary Import")
+    field_binary_name = fields.Char(string="Field Binary Name")
+
+    def action_confirm(self):
+        if not self.field_binary_import:
+            raise ValidationError(_("Warning!, You must fill data file "))
+        try:
+            if not _check_format_excel(self.field_binary_name):
+                raise osv.except_osv("Cảnh báo!",
+                                     (
+                                         "File không được tìm thấy hoặc không đúng định dạng. Vui lòng kiểm tra lại định dạng file .xls hoặc .xlsx"))
+            data = base64.decodestring(self.field_binary_import)
+            excel = xlrd.open_workbook(file_contents=data)
+            sheet = excel.sheet_by_index(0)
+            if not sheet.cell(1, 0).value:
+                raise ValidationError(_("Warning!, You must fill data "))
+
+            end = sheet.nrows
+            index = 1
+
+            messages = ''
+            vals_list = []
+            for i in range(index, end):
+                product_vals = {}
+                product_id = sheet.cell(i, 0).value
+                product_uom_id = sheet.cell(i, 1).value
+                request_quantity = sheet.cell(i, 2).value
+                estimated_unit_price = sheet.cell(i, 4).value
+                estimated_subtotal = sheet.cell(i, 5).value
+                due_date = sheet.cell(index, 6).value
+                note = sheet.cell(index, 7).value
+
+                product = self.env['product.product'].search([('id', '=', int(product_id))], limit=1)
+                if not product:
+                    messages += _("\n- No Product with code exists %s in row %s.") % (product.name, i)
+                uom = self.env['uom.uom'].search([('id', '=', int(product_uom_id))], limit=1)
+                if not uom:
+                    messages += _("\n- No Unit with code exists %s in row %s.") % (uom.name, i)
+                date = _check_valid_date(due_date)
+                if messages == '':
+                    product_vals = {
+                        'requested_id': self.id,
+                        'product_id': product.id,
+                        'product_uom_id': uom.id,
+                        'request_quantity': request_quantity,
+                        'estimated_unit_price': estimated_unit_price,
+                        'estimated_subtotal': estimated_subtotal,
+                        'due_date': date,
+                        'description': note,
+                    }
+                vals_list.append(product_vals)
+            if messages or messages != '':
+                raise ValidationError(messages)
+            self.env['purchase.request.line'].create(vals_list)
+            self.field_binary_import = None
+            self.field_binary_name = None
+        except ValueError as e:
+            raise osv.except_osv("Warning!", (e))
+        except Exception as e:
+            raise osv.except_osv("Warning!", (e))
+
+    def in_excel(self):
+        return self.env.ref('purchaseordered.report_request_xlsx').report_action(self)
 
     @api.onchange('due_date')
     def _onchange_due_date(self):
@@ -138,18 +230,3 @@ class PurchaseRequest(models.Model):
             'view_mode': 'tree,form',
             'target': 'current',
         }
-
-    def button_open_wizard_import_sale_order1(self):
-        pass
-        # self.ensure_one()
-        # return {
-        #     'name': _(''),
-        #     'type': 'ir.actions.act_window',
-        #     'view_type': 'form',
-        #     'res_model': 'import.purchase.request.line',
-        #     'no_destroy': True,
-        #     'target': 'new',
-        #     'view_id': self.env.ref('purchaseordered.wizard_import_purchase_request_line_view_form') and self.env.ref(
-        #         'purchaseordered.wizard_import_purchase_request_line_view_form_warning').id or False,
-        #     'context': {'default_order_id': self.id},
-        # }

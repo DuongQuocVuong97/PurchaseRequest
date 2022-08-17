@@ -14,7 +14,7 @@ class PurchaseRequestLine(models.Model):
     estimated_subtotal = fields.Float(string="Chi phí dự kiến", compute="_compute_total", readonly=True)
     due_date = fields.Date(string="Ngày cần cấp", required=True, default=fields.Date.today())
     description = fields.Text(string="Ghi chú")
-    delivered_quantity = fields.Float(string="Số lượng đã đưa", copy=False, compute="_compute_delivered_quantity")
+    delivered_quantity = fields.Float(string="Số lượng đã đưa", copy=False)
 
     @api.depends("request_quantity", "estimated_unit_price")
     def _compute_total(self):
@@ -26,5 +26,3 @@ class PurchaseRequestLine(models.Model):
         for rc in self:
             if rc.request_quantity <= 0:
                 raise ValidationError(_('You cannot create recursive departments.'))
-
-

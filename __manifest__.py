@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'hr', 'stock'],
+    'depends': ['base', 'hr', 'stock', 'report_xlsx'],
 
     # always loaded
     'data': [
@@ -30,7 +30,8 @@
         'views/purchase_request_line_view.xml',
         'data/purchase_request_sequence.xml',
         'wizard/reject_reason_view.xml',
-        # 'wizard/wizard_sale_order_line_view.xml',
+        'wizard/wizard_import_sale_order_line_view.xml',
+        'report/report_request_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
