@@ -7,7 +7,7 @@
                 <form string="Lý do từ chối">
                     <group class="oe_title">
                         <field name="date"/>
-                        <field name="reject_reason"/>
+                        <field name="reject_reason" groups="purchaseordered.group_manager"/>
                     </group>
                     <footer>
                         <button name="action_reject_reason" string="Đồng ý" type="object" class="btn-primary"/>

@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'hr', 'stock', 'report_xlsx'],
+    'depends': ['base', 'hr', 'stock', 'report_xlsx', 'purchase'],
 
     # always loaded
     'data': [

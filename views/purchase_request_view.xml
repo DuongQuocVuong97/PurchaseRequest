@@ -68,7 +68,7 @@
                                        attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))]}"/>
                                 <field name="cost_total"
                                        attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))]}"/>
-                                <field name="purchase_order_id"
+                                <field name="purchase_order_id" widget="many2many_tags"
                                        options="{'no_quick_create':True,'no_create_edit':true}"
                                        attrs="{'readonly': [ ('state', 'in', ('approved', 'wait','reject'))]}"/>
                             </group>
@@ -89,10 +89,8 @@
                         </group>
                         <notebook>
                             <page string="Chi tiết">
-                                <button name="generate_xlsx_report" type="object" string="In Excel"
-                                        class="btn btn-link"/>
-                                <button name="action_confirm" type="object" string="Import file"
-                                        class="btn btn-link"/>
+                                <button name="action_confirm" type="object" string="Import file Excel"
+                                        class="btn btn-success"/>
                                 <field name="field_binary_import" filename="field_binary_name"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="field_binary_name" invisible="1"/>
@@ -108,7 +106,8 @@
                                                attrs="{'readonly': [ ('parent.state', 'in', ('approved', 'wait','reject'))]}"/>
                                         <field name="delivered_quantity"
                                                groups="purchaseordered.group_user,purchaseordered.group_manager"
-                                               attrs="{'readonly': [ ('parent.state', 'in', ('approved', 'wait','reject'))]}"/>
+                                               attrs="{'readonly': [ ('parent.state', 'in', ('approved', 'wait','reject'))],
+                                               'invisible': [('parent.state','not in',('approved', 'done'))]}"/>
                                         <field name="estimated_unit_price"
                                                groups="purchaseordered.group_user,purchaseordered.group_manager"
                                                attrs="{'readonly': [ ('parent.state', 'in', ('approved', 'wait','reject'))]}"/>
@@ -125,7 +124,7 @@
                             </page>
                         </notebook>
                         <group>
-                            <field name="reason"/>
+                            <field name="reason" groups="purchaseordered.group_manager"/>
                         </group>
                     </sheet>
                 </form>

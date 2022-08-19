@@ -48,6 +48,7 @@ class PurchaseRequest(models.Model):
     due_date = fields.Date(string="Ngày cần cấp", default=fields.Date.today())
     approved_date = fields.Date(string="Ngày phê duyệt", default=fields.Date.today())
     company_id = fields.Many2one('res.company', string='Công ty', index=True, default=lambda self: self.env.company.id)
+    delivered_quantity = fields.Float(string="Số lượng đã đưa", copy=False, readonly=True)
     state = fields.Selection([("draft", "Dự thảo"),
                               ("wait", "Chờ duyệt"),
                               ("approved", "Đã duyệt"),
@@ -55,7 +56,7 @@ class PurchaseRequest(models.Model):
                               ("reject", "Hủy")], default="draft", required=True)
     reason = fields.Text(string="Lý do từ chối duyệt")
     purchase_count = fields.Integer(string="Đơn mua hàng", compute='_compute_purchase_count')
-    purchase_order_id = fields.Many2one("purchase.order")
+    purchase_order_id = fields.One2many("purchase.order", 'request_id')
     _sql_constraints = [
         ('name_unique',
          'UNIQUE(name)',
@@ -119,9 +120,9 @@ class PurchaseRequest(models.Model):
             self.field_binary_import = None
             self.field_binary_name = None
         except ValueError as e:
-            raise osv.except_osv("Warning!", (e))
+            raise osv.except_osv("Warning!", e)
         except Exception as e:
-            raise osv.except_osv("Warning!", (e))
+            raise osv.except_osv("Warning!", e)
 
     def in_excel(self):
         return self.env.ref('purchaseordered.report_request_xlsx').report_action(self)
@@ -160,10 +161,11 @@ class PurchaseRequest(models.Model):
 
             # tạo đơn po(purchase.order)
             order_vals = {
-                'partner_id': self.requested_by.id,
+                'partner_id': rec.requested_by.id,
+                'request_id': rec.id
             }
             vals = []
-            for line in self.lines:
+            for line in rec.lines:
                 val = {
                     'name': 'Test Order',
                     'product_id': line.product_id.id,
@@ -174,30 +176,7 @@ class PurchaseRequest(models.Model):
                 }
                 vals.append((0, 0, val))
             order_vals['order_line'] = vals
-        purchase_order = self.env['purchase.order'].create(
-            #
-            # # purchase_order = self.env['purchase.order'].create({
-            # #     'partner_id': self.requested_by.id,
-            # #     'order_line' : []
-            #     # 'order_line': [(0, 0, {
-            #     #     'name': 'Test Order',
-            #     #     'product_id': self.lines.product_id.id,
-            #     #     'product_qty': self.lines.request_quantity,
-            #     #     'product_uom': self.lines.product_uom_id.id,
-            #     #     'price_unit': self.lines.estimated_unit_price,
-            #     #     'date_planned': self.lines.due_date.strftime('%Y-%m-%d')})],
-            # })
-            # # purchase_order['order_line'].append(
-            # #     (0, 0, {
-            # #         'name': 'Test Order',
-            # #         'product_id': self.lines.product_id.id,
-            # #         'product_qty': self.lines.request_quantity,
-            # #         'product_uom': self.lines.product_uom_id.id,
-            # #         'price_unit': self.lines.estimated_unit_price,
-            # #         'date_planned': self.lines.due_date.strftime('%Y-%m-%d')})
-        )
-
-        self.purchase_order_id = purchase_order.id
+            rec.env['purchase.order'].create(order_vals)
 
     def action_done(self):
         for rec in self:
@@ -218,7 +197,7 @@ class PurchaseRequest(models.Model):
 
     def _compute_purchase_count(self):
         for rec in self:
-            purchase_count = self.env['purchase.request.line'].search_count([('requested_id', '=', rec.id)])
+            purchase_count = self.env['purchase.order'].search_count([('request_id', '=', rec.id)])
             rec.purchase_count = purchase_count
 
     def action_count(self):
