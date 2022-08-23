@@ -1,10 +1,7 @@
-from mock.mock import self
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError
 import base64
 import datetime
 import xlrd
-import xlsxwriter
 
 from odoo.exceptions import ValidationError
 from odoo.osv import osv
@@ -49,6 +46,7 @@ class PurchaseRequest(models.Model):
     approved_date = fields.Date(string="Ngày phê duyệt", default=fields.Date.today())
     company_id = fields.Many2one('res.company', string='Công ty', index=True, default=lambda self: self.env.company.id)
     delivered_quantity = fields.Float(string="Số lượng đã đưa", copy=False, readonly=True)
+    user_id = fields.Many2one("res.user")
     state = fields.Selection([("draft", "Dự thảo"),
                               ("wait", "Chờ duyệt"),
                               ("approved", "Đã duyệt"),
@@ -66,9 +64,9 @@ class PurchaseRequest(models.Model):
     field_binary_import = fields.Binary(string="Field Binary Import")
     field_binary_name = fields.Char(string="Field Binary Name")
 
-    def action_confirm(self):
+    def action_import(self):
         if not self.field_binary_import:
-            raise ValidationError(_("Warning!, You must fill data file "))
+            raise ValidationError(_("Cảnh báo, bạn phải điền đầy đủ dữ liệu "))
         try:
             if not _check_format_excel(self.field_binary_name):
                 raise osv.except_osv("Cảnh báo!",
@@ -144,6 +142,7 @@ class PurchaseRequest(models.Model):
     def create(self, vals):
         if vals.get('name', 'New') == 'New':
             vals['name'] = self.env['ir.sequence'].next_by_code('purchase.request.sequence') or 'New'
+        vals['user_id'] = self.env.uid
         result = super(PurchaseRequest, self).create(vals)
         return result
 

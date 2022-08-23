@@ -89,7 +89,7 @@
                         </group>
                         <notebook>
                             <page string="Chi tiết">
-                                <button name="action_confirm" type="object" string="Import file Excel"
+                                <button name="action_import" type="object" string="Import file Excel"
                                         class="btn btn-success"/>
                                 <field name="field_binary_import" filename="field_binary_name"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
@@ -131,12 +131,33 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="purchase_request_calendar_view">
+            <field name="name">purchase.request.calendar</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <calendar string="Lịch mua hàng" date_start="creation_date" date_stop="due_date" color="requested_by">
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="=purchase_request_graph_view">
+            <field name="name">purchase.request.graph</field>
+            <field name="model">purchase.request</field>
+            <field name="arch" type="xml">
+                <graph string="Purchase Request Statistics" type="line">
+                    <field name="approved_date" interval="day" type="col"/>
+                    <field name="delivered_quantity" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
 
         <record id="purchase_request_action" model="ir.actions.act_window">
             <field name="name">Purchase request</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">purchase.request</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
         </record>
 
         <menuitem id="purchase_request_menu_root"

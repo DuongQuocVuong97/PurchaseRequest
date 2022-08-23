@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-
 import base64
-import re
 import tempfile
 from datetime import datetime, date
 
 import xlsxwriter
 
-from odoo import fields, models, api, _
+from odoo import fields, models, _
 from odoo.exceptions import ValidationError
 
 
@@ -161,13 +159,11 @@ class WizardImportSaleOrderLine(models.TransientModel):
             ws.set_column('C:C', 15)
             ws.set_column('D:D', 15)
             ws.set_column('E:E', 15)
-            # ws.set_column('F:F', 100)
             ws.write('A1', 'Sản phẩm', table_header)
             ws.write('B1', 'Đơn vị tính', table_header)
             ws.write('C1', 'Số lượng yêu cầu', table_header)
             ws.write('D1', 'Đơn giá dự kiến', table_header)
             ws.write('E1', 'Chi phí dự kiến', table_header)
-            # ws.write('F1', 'Chi tiết lỗi', table_header_error)
             row = 2
             message = ''
             for i in dict_error:
@@ -177,17 +173,11 @@ class WizardImportSaleOrderLine(models.TransientModel):
                 ws.write('C{}'.format(row), excel_data[(i - 2)][2], row_default_left)
                 ws.write('D{}'.format(row), excel_data[(i - 2)][3], row_default_left)
                 ws.write('E{}'.format(row), excel_data[(i - 2)][4], row_default_left)
-                # ws.write('F{}'.format(row), re.sub(' +', ' ', dict_error[i].replace('\n', '')).replace(' -', ','),
-                #          row_default_left_error)
                 row += 1
             wb.close()
-            # self.write({'error_message': _(message)})
             f = open(fileobj_or_path, "rb")
             data = f.read()
             xlsx_data = base64.b64encode(data)
-            # self.attachment_id.write({
-            #     'datas': xlsx_data,
-            # })
             return {
                 'name': _('Warning'),
                 'type': 'ir.actions.act_window',

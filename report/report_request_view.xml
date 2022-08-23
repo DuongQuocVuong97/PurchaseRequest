@@ -8,4 +8,5 @@
             name="purchaseordered.request_xlsx"
             file="purchaseordered.request_xlsx"
     />
+
 </odoo>
