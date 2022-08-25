@@ -22,24 +22,29 @@
                     <header>
                         <button name="action_wait" state="wait" string="Gửi duyệt" type="object" class="oe_highlight"
                                 attrs="{'invisible': [('state','!=','draft')]}"
+                                confirm="Bạn có chắc là muốn chuyển sang trạng thái chờ duyệt"
                                 groups="purchaseordered.group_user"/>
                         <button name="action_approved" state="approved" string="Phê duyệt" type="object"
                                 class="oe_highlight" attrs="{'invisible': [('state','!=','wait')]}"
+                                confirm="Bạn có chắc là muốn chuyển sang trạng thái đã duyệt"
                                 groups="purchaseordered.group_manager"/>
                         <button name="action_reject" string="Từ chối" type="object" class="oe_highlight"
                                 attrs="{'invisible': [('state','!=','wait')]}"
                                 groups="purchaseordered.group_manager"/>
                         <button name="action_done" state="done" string="Hoàn thành" type="object" class="oe_highlight"
                                 attrs="{'invisible': [('state','!=','approved')]}"
+                                confirm="Bạn có chắc là muốn chuyển sang trạng thái hoàn thành"
                                 groups="purchaseordered.group_user"/>
                         <button name="action_reject" state="reject" string="Hủy" type="object" class="oe_highlight"
                                 attrs="{'invisible': [('state','!=','approved')]}"
+                                confirm="Bạn có chắc là muốn hủy yêu cầu mua hàng"
                                 groups="purchaseordered.group_manager"/>
                         <button name="action_draft" state="draft" string="Chuyển về dự thảo" type="object"
                                 class="oe_highlight" attrs="{'invisible': [('state','!=','reject')]}"
                                 groups="purchaseordered.group_user"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,wait,approved,done,reject"/>
-
+                        <button name="print_report" type="object" string="Thống kê báo cáo"
+                                        class="btn btn-info"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -124,7 +129,7 @@
                             </page>
                         </notebook>
                         <group>
-                            <field name="reason" groups="purchaseordered.group_manager"/>
+                            <field name="reason" groups="purchaseordered.group_user,purchaseordered.group_manager"/>
                         </group>
                     </sheet>
                 </form>
@@ -159,6 +164,8 @@
             <field name="res_model">purchase.request</field>
             <field name="view_mode">tree,form,calendar,graph</field>
         </record>
+
+
 
         <menuitem id="purchase_request_menu_root"
                   name="Purchase Test"/>

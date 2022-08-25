@@ -64,6 +64,25 @@ class PurchaseRequest(models.Model):
     field_binary_import = fields.Binary(string="Field Binary Import")
     field_binary_name = fields.Char(string="Field Binary Name")
 
+    val_fetch = fields.Text()
+
+
+
+    def print_report(self):
+        report_id = self.env['purchase.xls'].create({
+            'purchase_request_id': self.id
+        })
+        return {
+            'name': 'Báo cáo yêu cầu mua hàng',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'purchase.xls',
+            'no_destroy': True,
+            'res_id': report_id.id,
+            'target': 'new',
+            'view_id': self.env.ref('purchaseordered.purchase_xls_wizard_form_view').id
+        }
+
     def action_import(self):
         if not self.field_binary_import:
             raise ValidationError(_("Cảnh báo, bạn phải điền đầy đủ dữ liệu "))
@@ -208,3 +227,5 @@ class PurchaseRequest(models.Model):
             'view_mode': 'tree,form',
             'target': 'current',
         }
+
+

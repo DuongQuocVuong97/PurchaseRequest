@@ -68,16 +68,15 @@ class PartnerXlsx(models.AbstractModel):
             sheet.write(7, 5, 'Số lượng đáp ứng', center_format)
             sheet.write(7, 6, 'Đơn giá dự kiến', center_format)
             sheet.write(7, 7, 'Chi phí dự kiến', center_format)
-            sheet.write(7, 8, 'Ghi chú', center_format)
-            sheet.write(7, 9, 'Yêu cầu mua hàng', center_format)
-            sheet.write(8, 9, obj.name, center_format)
+            sheet.write(7, 8, 'Yêu cầu mua hàng', center_format)
+            sheet.write(8, 8, obj.name, center_format)
             i = 8
             k = 14
             n = 1
             sum_request_quantity = 0
             sum_delivered_quantity = 0
 
-            for line in partners.lines:
+            for line in partners.val_fetch:
                 sum_request_quantity += line.request_quantity
                 sum_delivered_quantity += line.delivered_quantity
                 sheet.write(i, 0, n, center)
@@ -92,9 +91,6 @@ class PartnerXlsx(models.AbstractModel):
                 sheet.write(i + 1, 3, 'Tổng cộng', center_format)
                 sheet.write(i + 1, 4, sum_request_quantity, center_format)
                 sheet.write(i + 1, 5, sum_delivered_quantity, center_format)
-                sheet.write(k, 3, 'Quản lý Cửa hàng/Kho tổng', bold)
-                sheet.write(k + 1, 3, '(Ký,ghi rõ họ tên)', center_noborder)
-                sheet.write(k, 6, 'Lập phiếu', bold)
-                sheet.write(k + 1, 6, '(Ký,ghi rõ họ tên)', center_noborder)
                 n += 1
                 i += 1
+
